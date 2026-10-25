@@ -35,8 +35,29 @@ Write a query to return data matching this description. You must match all colum
 | resolution_time | Continuos. The number of hours taken to resolve the support ticket, rounded to 2 decimal places. </br>Missing values should be replaced with 0. |
 
 
+##SQL Query 
 
+```sql
+SELECT 
+    id,
+    COALESCE(customer_id, 0) AS customer_id,
+    COALESCE(category, 'Other') AS category,
+    CASE 
+        WHEN status = '-' OR status IS NULL THEN 'Resolved' 
+        ELSE status 
+    END AS status,
+    COALESCE(creation_date, '2023-01-01'::DATE) AS creation_date,
+    COALESCE(response_time, 0) AS response_time,
+    ROUND(
+        COALESCE(
+            NULLIF(REPLACE(resolution_time, ' hours', ''), '')::NUMERIC, 
+            0
+        ), 
+        2
+    ) AS resolution_time
+FROM support;
 
+```
 
 # 2nd Work
 
@@ -48,9 +69,18 @@ Your output should include the columns `category`, `min_response` and `max_respo
 
 Values should be rounded to two decimal places where appropriate. 
 
+##SQL Query 
 
 
+```sql
+SELECT 
+    COALESCE(category, 'Other') AS category,
+    ROUND(MIN(COALESCE(response_time, 0))::NUMERIC, 2) AS min_response,
+    ROUND(MAX(COALESCE(response_time, 0))::NUMERIC, 2) AS max_response
+FROM support
+GROUP BY COALESCE(category, 'Other');
 
+```
 # 3rd Work
 
 The support team want to know more about the `rating` provided by customers who reported `Bugs` or `Installation Problem`s. 
@@ -58,3 +88,15 @@ The support team want to know more about the `rating` provided by customers who 
 Write a query to return the `rating` from the survey, the `customer_id`, `category` and `response_time` of the support ticket, for the customers & categories of interest. 
 
 Use the original support table, not the output of task 1. 
+
+```sql
+SELECT 
+    su.rating,
+    s.customer_id,
+    s.category,
+    s.response_time
+FROM support s
+INNER JOIN survey su 
+    ON s.customer_id = su.customer_id
+WHERE s.category IN ('Bug', 'Installation Problem');
+```
