@@ -10,4 +10,5 @@ You are working with the customer support team to provide data to managers to he
 
 The following schema diagram shows the tables available.
 
-![customer_feedback](support_db.png)
+![customer_feedback](<img width="325" height="232" alt="image" src="https://github.com/user-attachments/assets/95fbaf43-5323-49b4-8516-f6416eb10f0a" />
+)
