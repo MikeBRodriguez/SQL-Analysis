@@ -1,0 +1,42 @@
+### SQL Queries & Implementation
+
+Below are the cleaned, production-ready SQL queries for each task of the hotel operations analysis.
+
+#### Task 1: Data Cleaning & Type Casting (`branch` table)
+Identifies and replaces invalid/missing values, standardizes dirty strings, and casts data types safely using standard ANSI SQL.
+
+```sql
+SELECT 
+    id,
+    -- Handle missing or out-of-scope location categories
+    CASE 
+        WHEN location IS NULL OR location = '' OR location NOT IN ('EMEA', 'NA', 'LATAM', 'APAC') THEN 'Unknown'
+        ELSE location 
+    END AS location,
+    
+    -- Clean total_rooms and ensure integer data type
+    CASE 
+        WHEN total_rooms IS NULL OR CAST(total_rooms AS numeric) < 1 OR CAST(total_rooms AS numeric) > 400 THEN 100
+        ELSE CAST(total_rooms AS integer) 
+    END AS total_rooms,
+    
+    -- Impute missing staff_count based on total_rooms logic (1.5 multiplier)
+    CASE 
+        WHEN staff_count IS NULL THEN 
+            CAST((CASE WHEN total_rooms IS NULL OR CAST(total_rooms AS numeric) < 1 OR CAST(total_rooms AS numeric) > 400 THEN 100 ELSE CAST(total_rooms AS numeric) END) * 1.5 AS numeric)
+        ELSE CAST(staff_count AS numeric) 
+    END AS staff_count,
+    
+    -- Handle string placeholders ('-') and filter invalid opening years
+    CASE 
+        WHEN opening_date IS NULL OR opening_date = '-' OR opening_date = '' OR CAST(opening_date AS integer) < 2000 OR CAST(opening_date AS integer) > 2023 THEN 2023
+        ELSE CAST(opening_date AS integer) 
+    END AS opening_date,
+    
+    -- Fix typos ('B.', 'Busniess') using string matching
+    CASE 
+        WHEN target_guests LIKE 'B%' THEN 'Business'
+        WHEN target_guests LIKE 'L%' THEN 'Leisure'
+        ELSE 'Leisure' 
+    END AS target_guests
+FROM branch;
