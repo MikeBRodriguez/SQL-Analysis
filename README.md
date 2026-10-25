@@ -10,4 +10,4 @@ You are working with the customer support team to provide data to managers to he
 
 The following schema diagram shows the tables available.
 
-![customer_feedback](blob:https://www.datacamp.com/b7110dc0-642f-43c0-905b-5b3774ee6c1d)
+<img width="415" height="289" alt="data" src="https://github.com/user-attachments/assets/0ad82990-6b10-4f53-b50b-90ee0ca9319d" />
