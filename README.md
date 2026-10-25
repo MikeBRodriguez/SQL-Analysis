@@ -34,6 +34,33 @@ Write a query to return data matching this description. You must match all colum
 | response_time | Discrete. The number of days taken to respond to the support ticket. </br>Missing values should be replaced with 0. |
 | resolution_time | Continuos. The number of hours taken to resolve the support ticket, rounded to 2 decimal places. </br>Missing values should be replaced with 0. |
 
+## Solution SQL
+
+SELECT 
+    id,
+    CASE 
+        WHEN location IS NULL OR location = '' OR location NOT IN ('EMEA', 'NA', 'LATAM', 'APAC') THEN 'Unknown'
+        ELSE location 
+    END AS location,
+    CASE 
+        WHEN total_rooms IS NULL OR CAST(total_rooms AS numeric) < 1 OR CAST(total_rooms AS numeric) > 400 THEN 100
+        ELSE CAST(total_rooms AS integer) 
+    END AS total_rooms,
+    CASE 
+        WHEN staff_count IS NULL THEN 
+            CAST((CASE WHEN total_rooms IS NULL OR CAST(total_rooms AS numeric) < 1 OR CAST(total_rooms AS numeric) > 400 THEN 100 ELSE CAST(total_rooms AS numeric) END) * 1.5 AS numeric)
+        ELSE CAST(staff_count AS numeric) 
+    END AS staff_count,
+    CASE 
+        WHEN opening_date IS NULL OR opening_date = '-' OR opening_date = '' OR CAST(opening_date AS integer) < 2000 OR CAST(opening_date AS integer) > 2023 THEN 2023
+        ELSE CAST(opening_date AS integer) 
+    END AS opening_date,
+    CASE 
+        WHEN target_guests LIKE 'B%' THEN 'Business'
+        WHEN target_guests LIKE 'L%' THEN 'Leisure'
+        ELSE 'Leisure' 
+    END AS target_guests
+FROM branch;
 
 
 
