@@ -16,7 +16,7 @@ The following schema diagram shows the tables available.
 
 
 
-# Task 1
+# 1st Work
 
 Before starting any analysis, we need to confirm that the data is accurate and reflects what you expect to see. 
 
@@ -38,7 +38,7 @@ Write a query to return data matching this description. You must match all colum
 
 
 
-# Task 2
+# 2nd Work
 
 It is suspected that the response time to tickets is a big factor in unhappiness.
 
@@ -51,7 +51,7 @@ Values should be rounded to two decimal places where appropriate.
 
 
 
-# Task 3
+# 3rd Work
 
 The support team want to know more about the `rating` provided by customers who reported `Bugs` or `Installation Problem`s. 
 
