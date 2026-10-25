@@ -75,11 +75,10 @@ Values should be rounded to two decimal places where appropriate.
 ```sql
 SELECT 
     COALESCE(category, 'Other') AS category,
-    ROUND(MIN(COALESCE(response_time, 0))::NUMERIC, 2) AS min_response,
-    ROUND(MAX(COALESCE(response_time, 0))::NUMERIC, 2) AS max_response
+    ROUND(CAST(MIN(COALESCE(response_time, 0)) AS NUMERIC), 2) AS min_response,
+    ROUND(CAST(MAX(COALESCE(response_time, 0)) AS NUMERIC), 2) AS max_response
 FROM support
 GROUP BY COALESCE(category, 'Other');
-
 ```
 # 3rd Work
 
