@@ -1,4 +1,4 @@
-# Practical Exam: Sample SQL Associate
+# Practical work SQL
 
 Tech Solutions Inc. is a leading technology company specializing in software development and IT consulting services. The company prides itself on delivering innovative solutions to clients across various industries. With a dedicated team of skilled professionals, TechSolutions has earned a reputation for excellence in the tech industry.
 
